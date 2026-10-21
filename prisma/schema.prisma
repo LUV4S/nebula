@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  characters    Character[]
+  conversations Conversation[]
+}
+
+model Character {
+  id          String @id @default(cuid())
+  name        String
+  category    String
+  description String @db.Text
+  personality String @db.Text
+  scenario    String @db.Text
+  greeting    String @db.Text
+  imageUrl String?
+
+  creatorId String
+  creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  conversations Conversation[]
+
+  @@index([creatorId])
+  @@index([createdAt])
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+model Conversation {
+  id                    String          @id @default(cuid())
+  userId                String
+  characterId           String
+  title                 String?
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+  memory                String          @default("") @db.Text
+  memoryUpdatedAt       DateTime?
+  permanentMemory       String          @default("") @db.Text
+  memoryProcessingUntil DateTime?
+  memoryProcessingToken String?         @db.Uuid
+  lastMessageAt         DateTime?
+  memoryVersions        MemoryVersion[]
+  memoryFacts           MemoryFact[]
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  messages  Message[]
+
+  @@unique([userId, characterId])
+  @@index([userId, updatedAt])
+  @@index([characterId])
+}
+
+model Message {
+  id             String      @id @default(cuid())
+  conversationId String
+  role           MessageRole
+  content        String      @db.Text
+  createdAt      DateTime    @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
+
+model MemoryVersion {
+  id              String   @id @default(cuid())
+  conversationId  String
+  permanentMemory String   @default("") @db.Text
+  narrativeMemory String   @default("") @db.Text
+  createdAt       DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
+
+model MemoryFact {
+  id             String @id @default(cuid())
+  conversationId String
+
+  category     String  @default("general")
+  subject      String  @default("")
+  content      String  @db.Text
+  originalText String  @db.Text
+  contentHash  String? @db.VarChar(64)
+
+  certainty   String  @default("uncertain")
+  source      String  @default("conversation")
+  isEssential Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, contentHash])
+  @@index([conversationId, createdAt])
+}

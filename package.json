@@ -1,26 +1,53 @@
 {
-  "name": "janitor-ai-app",
+  "name": "nebula",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "memory:worker": "tsx -r tsconfig-paths/register src/workers/memory.ts"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^18.0.7",
     "next": "16.4.0",
+    "next-auth": "^5.0.0-beta.32",
+    "pg": "^8.23.1",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "swagger-ui-react": "^5.33.2",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/swagger-ui-react": "^5.18.0",
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
+    "prisma": "^7.10.0",
     "tailwindcss": "^4",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.23.15",
     "typescript": "^5"
+  },
+  "allowScripts": {
+    "unrs-resolver@1.12.2": true,
+    "prisma@7.10.0": true,
+    "@prisma/engines@7.10.0": true,
+    "esbuild@0.28.2": true,
+    "@scarf/scarf@1.4.0": true,
+    "core-js-pure@3.50.0": true,
+    "tree-sitter-json@0.24.8": true,
+    "@tree-sitter-grammars/tree-sitter-yaml@0.7.1": true,
+    "tree-sitter@0.21.1": true
   }
 }
