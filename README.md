@@ -111,7 +111,7 @@ As funcionalidades da aplicação que dependem de IA requerem os respectivos ser
 1. Clone o repositório e entre na pasta do projeto:
 
    ```bash
-   git clone https://github.com/SEU_USUARIO/nebula.git
+   git clone https://github.com/LUV4S/nebula.git
    cd nebula
    ```
 
@@ -121,7 +121,12 @@ As funcionalidades da aplicação que dependem de IA requerem os respectivos ser
    npm install
    ```
 
-3. Configure as variáveis de ambiente exigidas pelo projeto. Utilize um arquivo `.env` local, **sem enviar credenciais para o GitHub**. Confira os nomes efetivamente utilizados no código antes de criar um `.env.example`.
+3. Configure as variáveis de ambiente exigidas pelo projeto:
+
+
+   ```bash
+   cp .env.example .env
+   ```
 
 4. Configure a conexão com o PostgreSQL e aplique as migrações:
 
@@ -141,7 +146,11 @@ As funcionalidades da aplicação que dependem de IA requerem os respectivos ser
    - Aplicação: http://localhost:3000
    - Documentação da API: http://localhost:3000/api-docs
 
-> **Configuração pendente de detalhamento:** para tornar a instalação totalmente reproduzível, é necessário documentar as variáveis de ambiente reais, a configuração do Prisma 7 (`prisma7.config.ts`), as URLs dos serviços locais e os modelos/workflows exigidos. Esses valores não devem ser inventados nem conter segredos reais.
+7. Versão da IA utilizada:
+
+   ```bash
+   ollama pull llama3.2:3b
+   ```
 
 ## Validações e regras de negócio
 
