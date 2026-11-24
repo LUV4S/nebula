@@ -160,6 +160,20 @@ As funcionalidades da aplicação que dependem de IA requerem os respectivos ser
 - Parâmetros inválidos de listagem recebem resposta HTTP `400`.
 - Os endpoints utilizam códigos HTTP apropriados, como `200`, `201`, `400`, `401`, `404` e `500`.
 
+## Conta de teste para avaliação local
+
+Após executar as migrações e iniciar a Nebula, abra a tela de cadastro em `http://localhost:3000/register` e crie a conta com estes dados fictícios:
+
+| Campo | Valor de exemplo |
+| --- | --- |
+| Nome | Avaliador Nebula |
+| E-mail | `avaliador.nebula@example.com` |
+| Senha e confirmação | `Nebula-Avaliacao-2026!` |
+
+A conta é criada no banco local pelo formulário. Em uma instalação nova, repita o cadastro. Use esses dados apenas para avaliação local.
+
+Entre com a conta em `http://localhost:3000/login` e, no mesmo navegador, abra `http://localhost:3000/api-docs`. Para testar uma rota protegida, use `POST /api/characters` com o corpo de exemplo do Swagger. A resposta esperada é `201 Created`. Em uma janela anônima, a mesma operação deve retornar `401 Unauthorized`.
+
 ## Testes realizados
 
 Foram realizados testes manuais dos endpoints de personagens, incluindo:
